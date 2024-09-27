@@ -13,6 +13,10 @@ namespace Pacman {
                 
                 // Initialize
                 Clock clock = new Clock();
+                Scene scene = new Scene();
+                scene.Loader.Load("maze");
+                
+                window.SetView(new View(new FloatRect(18, 0, 414, 450)));
                 
                 while (window.IsOpen) {
                     window.DispatchEvents();
@@ -20,9 +24,11 @@ namespace Pacman {
                     deltaTime = MathF.Min(deltaTime, 0.01f);
                     
                     // Updates
+                    scene.UpdateAll(deltaTime);
                     window.Clear(new Color(223, 246, 245));
                     
                     // Drawing
+                    scene.RenderAll(window);
                     window.Display();
                 }
             }
