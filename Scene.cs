@@ -6,10 +6,10 @@ namespace Pacman
 {
     public class Scene
     {
-        public readonly SceneLoader Loader;
-        public readonly AssetManager Assets;
+        public readonly SceneLoader Loader = new SceneLoader();
+        public readonly AssetManager Assets = new AssetManager();
         
-        private List<Entity> entities;
+        private List<Entity> entities = new List<Entity>();
 
         public void Spawn(Entity entity)
         {
@@ -85,4 +85,3 @@ namespace Pacman
         }
     }
 }
-
