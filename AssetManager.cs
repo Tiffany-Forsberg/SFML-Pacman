@@ -23,7 +23,7 @@ namespace Pacman
                 return found;
             }
 
-            string fileName = $"assets/{name}.png";
+            string fileName = $"{AssetPath}/{name}.png";
             Texture texture = new Texture(fileName);
             textures.Add(name, texture);
             return texture;
@@ -36,7 +36,7 @@ namespace Pacman
                 return found;
             }
 
-            string fileName = $"assets/{name}.ttf";
+            string fileName = $"{AssetPath}/{name}.ttf";
             Font font = new Font(fileName);
             fonts.Add(name, font);
             return font;
