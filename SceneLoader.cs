@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Pacman
 {
-    class SceneLoader
+    public class SceneLoader
     {
         private readonly Dictionary<char, Func<Entity>> loaders;
         private string currentScene = "", nextScene = "";

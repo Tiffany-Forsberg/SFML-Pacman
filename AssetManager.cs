@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Pacman
 {
-    class AssetManager
+    public class AssetManager
     {
         public static readonly string AssetPath = "assets";
 

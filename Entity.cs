@@ -3,7 +3,7 @@ using SFML.System;
 
 namespace Pacman
 {
-    class Entity
+    public class Entity
     {
         public bool Dead;
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Pacman
 {
-    class Scene
+    public class Scene
     {
         public readonly SceneLoader Loader;
         public readonly AssetManager Assets;
