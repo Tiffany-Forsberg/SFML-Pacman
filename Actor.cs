@@ -33,36 +33,27 @@ namespace Pacman
             Reset();
         }
 
-        protected bool IsFree(Scene scene, int direction)
+        protected bool IsFree(Scene scene, int dir)
         {
             Vector2f at = Position + new Vector2f(9, 9);
-            at += 18 * ToVector(direction);
+            at += 18 * ToVector(dir);
             FloatRect rect = new FloatRect(at.X, at.Y, 1, 1);
 
             return !scene.FindIntersects(rect).Any(e => e.Solid);
         }
 
-        protected static Vector2f ToVector(int direction)
+        protected static Vector2f ToVector(int dir)
         {
-            if (direction == 0)
+            return dir switch
             {
-                return new Vector2f(-1, 0);
-            }
-
-            if (direction == 1)
-            {
-                return new Vector2f(1, 0);
-            }
-            
-            if (direction == 2)
-            {
-                return new Vector2f(0, -1);
-            }
-            
-            return new Vector2f(0, 1);
+                0 => new Vector2f(-1, 0), // Left
+                1 => new Vector2f(0, -1), // Up
+                2 => new Vector2f(1, 0), // Right
+                _ => new Vector2f(0, 1) // Down
+            };
         }
 
-        protected int PickDirection(Scene scene)
+        protected virtual int PickDirection(Scene scene)
         {
             return 0; 
         }

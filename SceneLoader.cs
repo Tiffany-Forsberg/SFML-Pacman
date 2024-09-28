@@ -14,7 +14,8 @@ namespace Pacman
         {
             loaders = new Dictionary<char, Func<Entity>>
             {
-                { '#', () => new Wall() }
+                { '#', () => new Wall() },
+                {'g', () => new Ghost()},
             };
         }
 
