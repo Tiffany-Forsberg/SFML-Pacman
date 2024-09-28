@@ -42,11 +42,10 @@ namespace Pacman
             Console.WriteLine($"Loading scene '{file}'");
             
             // Load scene file
-            IEnumerable<string> lines = File.ReadLines(file, Encoding.UTF8);
-
-            for (int row = 0; row < lines.Count(); row++)
-            {
-                string parsed = lines.ElementAt(row).Trim();
+            int row = 0;
+            foreach (var line in File.ReadLines(file, Encoding.UTF8))
+            {    
+                string parsed = line.Trim();
                 
                 if (parsed.Length == 0) continue;
 
@@ -60,6 +59,8 @@ namespace Pacman
                         scene.Spawn(created);
                     }
                 }
+
+                row++;
             }
             
             currentScene = nextScene;
