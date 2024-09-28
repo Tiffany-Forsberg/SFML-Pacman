@@ -46,9 +46,9 @@ namespace Pacman
         {
             return dir switch
             {
-                0 => new Vector2f(-1, 0), // Left
+                0 => new Vector2f(1, 0), // Right
                 1 => new Vector2f(0, -1), // Up
-                2 => new Vector2f(1, 0), // Right
+                2 => new Vector2f(-1, 0), // Left
                 _ => new Vector2f(0, 1) // Down
             };
         }

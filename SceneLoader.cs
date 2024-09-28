@@ -16,6 +16,7 @@ namespace Pacman
             {
                 { '#', () => new Wall() },
                 {'g', () => new Ghost()},
+                {'p', () => new Pacman()},
             };
         }
 
