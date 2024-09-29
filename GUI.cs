@@ -20,7 +20,7 @@ namespace Pacman
             scoreText.Font = scene.Assets.LoadFont("pixel-font");
             scoreText.DisplayedString = "Score";
             scoreText.CharacterSize = 24;
-            scoreText.Scale = scoreText.Scale/1.5f;
+            scoreText.Scale /= 1.5f;
             currentHealth = maxHealth;
         }
 
