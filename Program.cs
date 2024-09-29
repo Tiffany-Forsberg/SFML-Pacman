@@ -25,7 +25,7 @@ namespace Pacman {
                     
                     // Updates
                     scene.UpdateAll(deltaTime);
-                    window.Clear(new Color(223, 246, 245));
+                    window.Clear(new Color(0, 0, 0));
                     
                     // Drawing
                     scene.RenderAll(window);

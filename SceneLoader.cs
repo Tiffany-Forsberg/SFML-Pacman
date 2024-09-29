@@ -67,6 +67,8 @@ namespace Pacman
                 row++;
             }
             
+            scene.Spawn(new GUI());
+            
             currentScene = nextScene;
             nextScene = "";
         }
