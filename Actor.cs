@@ -23,13 +23,15 @@ namespace Pacman
         protected void Reset()
         {
             wasAligned = false;
-            originalPosition = Position;
-            originalSpeed = speed;
+            Position = originalPosition;
+            speed = originalSpeed;
         }
 
         public override void Create(Scene scene)
         {
             base.Create(scene);
+            originalPosition = Position;
+            originalSpeed = speed;
             Reset();
         }
 
