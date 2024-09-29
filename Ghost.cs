@@ -30,13 +30,8 @@ namespace Pacman
 
         protected override void CollideWith(Scene scene, Entity e)
         {
-            if (e is Coin || e is Wall || e is Ghost || e is Candy) return;
-            
-            Console.WriteLine("ghost collision");
-            Console.WriteLine(e.GetType());
             if (e is Pacman)
             {
-                Console.WriteLine("with pacman");
                 scene.PublishLoseHealth(1);
                 Reset();
             }
