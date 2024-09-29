@@ -27,5 +27,16 @@ namespace Pacman
             int r = new Random().Next(0, validMoves.Count);
             return validMoves[r];
         }
+
+        protected override void CollideWith(Scene scene, Entity e)
+        {
+            Console.WriteLine("ghost collision");
+            if (e is Pacman)
+            {
+                Console.WriteLine("with pacman");
+                scene.PublishLoseHealth(1);
+                Reset();
+            }
+        }
     }
 }
