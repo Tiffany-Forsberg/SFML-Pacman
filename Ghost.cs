@@ -74,7 +74,12 @@ namespace Pacman
         {
             base.Update(scene, deltaTime);
             frozenTimer = MathF.Max(frozenTimer - deltaTime, 0.0f);
+        }
+
+        public override void Render(RenderTarget target)
+        {
             HandleAnimation();
+            base.Render(target);
         }
     }
 }
