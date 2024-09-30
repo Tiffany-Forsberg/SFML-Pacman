@@ -6,6 +6,7 @@ namespace Pacman
 {
     public class Ghost : Actor
     {
+        private float frozenTimer;
         public override void Create(Scene scene)
         {
             direction = -1;
@@ -13,6 +14,18 @@ namespace Pacman
             moving = true;
             base.Create(scene);
             sprite.TextureRect = new IntRect(36, 0, 18, 18);
+            scene.EatCandy += OnEatCandy;
+        }
+        
+        public override void Destroy(Scene scene)
+        {
+            base.Destroy(scene);
+            scene.EatCandy -= OnEatCandy;
+        }
+
+        private void OnEatCandy(Scene scene, int amount)
+        {
+            frozenTimer = 5;
         }
 
         protected override int PickDirection(Scene scene)
@@ -35,6 +48,18 @@ namespace Pacman
                 scene.PublishLoseHealth(1);
                 Reset();
             }
+        }
+
+        public override void Update(Scene scene, float deltaTime)
+        {
+            base.Update(scene, deltaTime);
+            frozenTimer = MathF.Max(frozenTimer - deltaTime, 0.0f);
+        }
+
+        public override void Render(RenderTarget target)
+        {
+            sprite.TextureRect = new IntRect(36, frozenTimer > 0 ? 18 : 0, 18, 18);
+            base.Render(target);
         }
     }
 }
