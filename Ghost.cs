@@ -7,6 +7,9 @@ namespace Pacman
     public class Ghost : Actor
     {
         private float frozenTimer;
+        private Clock animationTimer = new Clock();
+        private AnimationState currentSprite = AnimationState.State1;
+        
         public override void Create(Scene scene)
         {
             direction = -1;
@@ -50,16 +53,28 @@ namespace Pacman
             }
         }
 
+        private void HandleAnimation()
+        {
+            if (animationTimer.ElapsedTime.AsSeconds() < 0.2f) return;
+            
+            if (currentSprite == AnimationState.State1)
+            {
+                currentSprite = AnimationState.State2;
+            }
+            else
+            {
+                currentSprite = AnimationState.State1;
+            }
+            
+            sprite.TextureRect = new IntRect(currentSprite == AnimationState.State1 ? 36 : 54, frozenTimer > 0 ? 18 : 0, 18, 18);
+            animationTimer.Restart();
+        }
+        
         public override void Update(Scene scene, float deltaTime)
         {
             base.Update(scene, deltaTime);
             frozenTimer = MathF.Max(frozenTimer - deltaTime, 0.0f);
-        }
-
-        public override void Render(RenderTarget target)
-        {
-            sprite.TextureRect = new IntRect(36, frozenTimer > 0 ? 18 : 0, 18, 18);
-            base.Render(target);
+            HandleAnimation();
         }
     }
 }
