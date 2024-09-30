@@ -8,6 +8,17 @@ namespace Pacman
     {
         public Coin() : base("pacman") {}
         
+        public override FloatRect Bounds {
+            get {
+                var bounds = base.Bounds;
+                bounds.Left += 1;
+                bounds.Width -= 1;
+                bounds.Top += 1;
+                bounds.Height -= 1;
+                return bounds;
+            }
+        }
+        
         public override void Create(Scene scene)
         {
             base.Create(scene);
