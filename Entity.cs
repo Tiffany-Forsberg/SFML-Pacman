@@ -6,6 +6,7 @@ namespace Pacman
     public class Entity
     {
         public bool Dead;
+        public bool DontDestroyOnLoad;
 
         protected Sprite sprite;
 

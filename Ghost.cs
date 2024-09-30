@@ -48,6 +48,7 @@ namespace Pacman
         {
             if (e is Pacman)
             {
+                if (frozenTimer > 0) return;
                 scene.PublishLoseHealth(1);
                 Reset();
             }
