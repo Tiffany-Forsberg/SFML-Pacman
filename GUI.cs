@@ -22,15 +22,15 @@ namespace Pacman
             scoreText.CharacterSize = 24;
             scoreText.Scale /= 1.5f;
             currentHealth = maxHealth;
-            scene.LoseHealth += OnLoseHealth;
-            scene.GainScore += OnGainScore;
+            scene.Events.LoseHealth += OnLoseHealth;
+            scene.Events.GainScore += OnGainScore;
         }
         
         public override void Destroy(Scene scene)
         {
             base.Destroy(scene);
-            scene.LoseHealth -= OnLoseHealth;
-            scene.GainScore -= OnGainScore;
+            scene.Events.LoseHealth -= OnLoseHealth;
+            scene.Events.GainScore -= OnGainScore;
         }
 
         private void OnLoseHealth(Scene scene, int amount)

@@ -17,13 +17,13 @@ namespace Pacman
             moving = true;
             base.Create(scene);
             sprite.TextureRect = new IntRect(36, 0, 18, 18);
-            scene.EatCandy += OnEatCandy;
+            scene.Events.EatCandy += OnEatCandy;
         }
         
         public override void Destroy(Scene scene)
         {
             base.Destroy(scene);
-            scene.EatCandy -= OnEatCandy;
+            scene.Events.EatCandy -= OnEatCandy;
         }
 
         private void OnEatCandy(Scene scene, int amount)
@@ -46,12 +46,12 @@ namespace Pacman
 
         protected override void CollideWith(Scene scene, Entity e)
         {
-            if (e is Pacman)
+            if (e is not Pacman) return;
+            if (frozenTimer <= 0)
             {
-                if (frozenTimer > 0) return;
-                scene.PublishLoseHealth(1);
-                Reset();
+                scene.Events.PublishLoseHealth(1);
             }
+            Reset();
         }
 
         private void HandleAnimation()

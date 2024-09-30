@@ -4,24 +4,13 @@ using System.Text;
 
 namespace Pacman
 {
-    public delegate void ValueChangedEvent(Scene scene, int value);
     public sealed class Scene
     {
-        public event ValueChangedEvent GainScore;
-        public event ValueChangedEvent LoseHealth;
-        public event ValueChangedEvent EatCandy;
-        
         public readonly SceneLoader Loader = new SceneLoader();
         public readonly AssetManager Assets = new AssetManager();
+        public readonly EventManager Events = new EventManager();
         
         private List<Entity> entities = new List<Entity>();
-        private int scoreGained;
-        private int healthLost;
-        private int candyEaten;
-
-        public void PublishGainScore(int amount) => scoreGained += amount;
-        public void PublishLoseHealth(int amount) => healthLost += amount;
-        public void PublishEatCandy(int amount) => candyEaten += amount;
         
         public void Spawn(Entity entity)
         {
@@ -75,29 +64,12 @@ namespace Pacman
         public void UpdateAll(float deltaTime)
         {
             Loader.HandleSceneLoad(this);
+            Events.HandleEvents(this);
             
             for (int i = entities.Count - 1; i >= 0; i--)
             {
                 Entity entity = entities[i];
                 entity.Update(this, deltaTime);
-            }
-
-            if (scoreGained != 0)
-            {
-                GainScore?.Invoke(this, scoreGained);
-                scoreGained = 0;
-            }
-            
-            if (healthLost != 0)
-            {
-                LoseHealth?.Invoke(this, healthLost);
-                healthLost = 0;
-            }
-            
-            if (candyEaten != 0)
-            {
-                EatCandy?.Invoke(this, candyEaten);
-                candyEaten = 0;
             }
 
             for (int i = 0; i < entities.Count;)
