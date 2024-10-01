@@ -8,6 +8,7 @@ namespace Pacman
     {
         private bool wasAligned;
         
+        protected float resetTimer;
         protected float speed;
         protected int direction;
         protected bool moving;
@@ -25,6 +26,7 @@ namespace Pacman
             wasAligned = false;
             Position = originalPosition;
             speed = originalSpeed;
+            resetTimer = 1f;
         }
 
         public override void Create(Scene scene)
@@ -64,6 +66,10 @@ namespace Pacman
         {
             base.Update(scene, deltaTime);
 
+            resetTimer = MathF.Max(resetTimer - deltaTime, 0.0f);
+
+            if (resetTimer > 0) return;
+            
             if (IsAligned)
             {
                 if (!wasAligned)

@@ -47,6 +47,7 @@ namespace Pacman
         protected override void CollideWith(Scene scene, Entity e)
         {
             if (e is not Pacman) return;
+            if (resetTimer > 0f) return;
             if (frozenTimer <= 0)
             {
                 scene.Events.PublishLoseHealth(1);
