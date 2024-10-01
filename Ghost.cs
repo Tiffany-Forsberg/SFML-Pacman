@@ -47,6 +47,10 @@ namespace Pacman
         protected override void CollideWith(Scene scene, Entity e)
         {
             if (e is not Pacman) return;
+            if (e is Actor { resetTimer: > 0 }) // Checks if the collided entity is an actor with an active resetTimer
+            {
+                return;
+            }
             if (resetTimer > 0f) return;
             if (frozenTimer <= 0)
             {

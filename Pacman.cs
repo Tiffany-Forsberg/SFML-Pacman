@@ -4,8 +4,6 @@ using System.Linq;
 using SFML.Window;
 using static SFML.Window.Keyboard.Key;
 
-// Add buffer to movement
-
 namespace Pacman
 {
     public class Pacman : Actor

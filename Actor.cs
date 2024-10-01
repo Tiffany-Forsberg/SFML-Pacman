@@ -6,9 +6,10 @@ namespace Pacman
 {
     public class Actor : Entity
     {
+        public float resetTimer;
+        
         private bool wasAligned;
         
-        protected float resetTimer;
         protected float speed;
         protected int direction;
         protected bool moving;
