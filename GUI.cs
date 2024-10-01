@@ -6,10 +6,12 @@ namespace Pacman
 {
     public class GUI : Entity
     {
+        private bool isGameOver;
         private Text scoreText;
         private int maxHealth = 4;
         private int currentHealth;
         private int currentScore;
+        private HighScoreManager highScore = new HighScoreManager();
         
         public GUI() : base("pacman") {}
         public override void Create(Scene scene)
@@ -22,8 +24,10 @@ namespace Pacman
             scoreText.CharacterSize = 24;
             scoreText.Scale /= 1.5f;
             currentHealth = maxHealth;
+            isGameOver = false;
             scene.Events.LoseHealth += OnLoseHealth;
             scene.Events.GainScore += OnGainScore;
+            scene.Events.GameOver += OnGameOver;
         }
         
         public override void Destroy(Scene scene)
@@ -39,7 +43,7 @@ namespace Pacman
             if (currentHealth <= 0)
             {
                 DontDestroyOnLoad = false;
-                scene.Loader.Reload();
+                scene.Events.PublishGameOver(true);
             }
         }
         
@@ -53,8 +57,32 @@ namespace Pacman
             }
         }
 
+        private void OnGameOver(Scene scene, bool state)
+        {
+            isGameOver = state;
+        }
+        
         public override void Render(RenderTarget target)
         {
+            if (isGameOver)
+            {
+                scoreText.DisplayedString = "GAME OVER";
+                scoreText.Position = new Vector2f(207 - scoreText.GetGlobalBounds().Width / 2, 150);
+                scoreText.Scale *= 1.5f;
+                target.Draw(scoreText);
+
+                scoreText.Scale /= 1.5f;
+                scoreText.DisplayedString = $"High Score: {highScore.HandleHighScore(currentScore)}";
+                scoreText.Position = new Vector2f(207 - scoreText.GetGlobalBounds().Width / 2, 200);
+                target.Draw(scoreText);
+                
+                scoreText.DisplayedString = "Press 'R' to restart";
+                scoreText.Position = new Vector2f(207 - scoreText.GetGlobalBounds().Width / 2, 250);
+                target.Draw(scoreText);
+                
+                return;
+            }
+            
             sprite.Position = new Vector2f(36, 396);
             for (int i = 0; i < maxHealth; i++)
             {

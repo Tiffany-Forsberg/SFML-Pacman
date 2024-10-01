@@ -1,6 +1,7 @@
 ﻿using SFML.Graphics;
 using System.Collections.Generic;
 using System.Text;
+using SFML.Window;
 
 namespace Pacman
 {
@@ -11,6 +12,17 @@ namespace Pacman
         public readonly EventManager Events = new EventManager();
         
         private List<Entity> entities = new List<Entity>();
+        private bool isGameOver = false;
+
+        public Scene()
+        {
+            Events.GameOver += OnGameOver;
+        }
+
+        private void OnGameOver(Scene scene, bool state)
+        {
+            isGameOver = state;
+        }
         
         public void Spawn(Entity entity)
         {
@@ -63,20 +75,32 @@ namespace Pacman
         
         public void UpdateAll(float deltaTime)
         {
-            Loader.HandleSceneLoad(this);
-            Events.HandleEvents(this);
-            
-            for (int i = entities.Count - 1; i >= 0; i--)
+            if (isGameOver)
             {
-                Entity entity = entities[i];
-                entity.Update(this, deltaTime);
+                if (Keyboard.IsKeyPressed(Keyboard.Key.R))
+                {
+                    Events.PublishGameOver(false);
+                    isGameOver = false;
+                    Loader.Reload();
+                }
             }
-
-            for (int i = 0; i < entities.Count;)
+            else
             {
-                Entity entity = entities[i];
-                if (entity.Dead) entities.RemoveAt(i);
-                else i++;
+                Loader.HandleSceneLoad(this);
+                Events.HandleEvents(this);
+
+                for (int i = entities.Count - 1; i >= 0; i--)
+                {
+                    Entity entity = entities[i];
+                    entity.Update(this, deltaTime);
+                }
+
+                for (int i = 0; i < entities.Count;)
+                {
+                    Entity entity = entities[i];
+                    if (entity.Dead) entities.RemoveAt(i);
+                    else i++;
+                }
             }
         }
 
