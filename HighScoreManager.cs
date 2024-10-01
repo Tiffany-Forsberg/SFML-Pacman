@@ -9,9 +9,10 @@ namespace Pacman
 
         public HighScoreManager()
         {
-            systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            systemPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             path = Path.Combine(systemPath, "HighScore.txt");
         }        
+        
         public int HandleHighScore(int score)
         {
             int currentHighScore = 0;
