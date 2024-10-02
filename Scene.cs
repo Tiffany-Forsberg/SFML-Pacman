@@ -11,7 +11,7 @@ namespace Pacman
         public readonly AssetManager Assets = new AssetManager();
         public readonly EventManager Events = new EventManager();
         
-        private List<Entity> entities = new List<Entity>();
+        private readonly List<Entity> entities = new List<Entity>();
         private bool isGameOver = false;
 
         public Scene()

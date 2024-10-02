@@ -8,23 +8,24 @@ namespace Pacman
     {
         private bool isGameOver;
         private Text scoreText;
-        private int maxHealth = 4;
+        private readonly int maxHealth = 4;
         private int currentHealth;
         private int currentScore;
-        private HighScoreManager highScore = new HighScoreManager();
+        private readonly HighScoreManager highScore = new HighScoreManager();
         
         public GUI() : base("pacman") {}
         public override void Create(Scene scene)
         {
             base.Create(scene);
             sprite.TextureRect = new IntRect(72, 36, 18, 18);
+            currentHealth = maxHealth;
+            
             scoreText = new Text();
             scoreText.Font = scene.Assets.LoadFont("pixel-font");
             scoreText.DisplayedString = "Score";
             scoreText.CharacterSize = 24;
             scoreText.Scale /= 1.5f;
-            currentHealth = maxHealth;
-            isGameOver = false;
+            
             scene.Events.LoseHealth += OnLoseHealth;
             scene.Events.GainScore += OnGainScore;
             scene.Events.GameOver += OnGameOver;
