@@ -1,8 +1,4 @@
-﻿using SFML.Graphics;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pacman
+﻿namespace Pacman
 {
     public delegate void ValueChangedEvent(Scene scene, int value);
     public delegate void BoolChangedEvent(Scene scene, bool value);

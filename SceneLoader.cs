@@ -1,6 +1,4 @@
-﻿using SFML.Graphics;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using SFML.System;
 
 namespace Pacman
@@ -15,10 +13,10 @@ namespace Pacman
             loaders = new Dictionary<char, Func<Entity>>
             {
                 { '#', () => new Wall() },
-                {'g', () => new Ghost()},
-                {'p', () => new Pacman()},
-                {'.', () => new Coin()},
-                {'c', () => new Candy()},
+                { 'g', () => new Ghost() },
+                { 'p', () => new Pacman() },
+                { '.', () => new Coin() },
+                { 'c', () => new Candy() },
             };
         }
 

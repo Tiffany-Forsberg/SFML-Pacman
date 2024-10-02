@@ -1,23 +1,23 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using System.Linq;
 
 namespace Pacman
 {
     public class Actor : Entity
     {
-        public float resetTimer;
+        public float ResetTimer;
         
         private bool wasAligned;
+        private Vector2f originalPosition;
+        private float originalSpeed;
         
         protected float speed;
         protected int direction;
         protected bool moving;
-        protected Vector2f originalPosition;
-        protected float originalSpeed;
         
         public Actor() : base("pacman") {}
 
+        // Checks if actor is aligned to the grid all squares are 18 x 18 pixels
         protected bool IsAligned => 
             (int) MathF.Floor(Position.X) % 18 == 0 &&
             (int) MathF.Floor(Position.Y) % 18 == 0;
@@ -27,7 +27,7 @@ namespace Pacman
             wasAligned = false;
             Position = originalPosition;
             speed = originalSpeed;
-            resetTimer = 1f;
+            ResetTimer = 1f;
         }
 
         public override void Create(Scene scene)
@@ -38,10 +38,11 @@ namespace Pacman
             Reset();
         }
 
+        // Checks if actor can move to square
         protected bool IsFree(Scene scene, int dir)
         {
-            Vector2f at = Position + new Vector2f(9, 9);
-            at += 18 * ToVector(dir);
+            Vector2f at = Position + new Vector2f(9, 9); // Sets "at" to center of current square
+            at += 18 * ToVector(dir); // Sets "at" to next square
             FloatRect rect = new FloatRect(at.X, at.Y, 1, 1);
 
             return !scene.FindIntersects(rect).Any(e => e.Solid);
@@ -57,7 +58,7 @@ namespace Pacman
                 _ => new Vector2f(0, 1) // Down
             };
         }
-
+        
         protected virtual int PickDirection(Scene scene)
         {
             return 0; 
@@ -67,9 +68,10 @@ namespace Pacman
         {
             base.Update(scene, deltaTime);
 
-            resetTimer = MathF.Max(resetTimer - deltaTime, 0.0f);
+            // Takes the higher value, can't be <0
+            ResetTimer = MathF.Max(ResetTimer - deltaTime, 0.0f);
 
-            if (resetTimer > 0) return;
+            if (ResetTimer > 0) return;
             
             if (IsAligned)
             {

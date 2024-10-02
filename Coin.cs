@@ -1,6 +1,4 @@
 ﻿using SFML.Graphics;
-using SFML.System;
-using System.Linq;
 
 namespace Pacman
 {
@@ -8,6 +6,7 @@ namespace Pacman
     {
         public Coin() : base("pacman") {}
         
+        // Thins collision
         public override FloatRect Bounds {
             get {
                 var bounds = base.Bounds;

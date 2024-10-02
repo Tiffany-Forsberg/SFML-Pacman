@@ -1,5 +1,4 @@
 ﻿using SFML.Graphics;
-using System.Collections.Generic;
 
 namespace Pacman
 {
@@ -15,7 +14,7 @@ namespace Pacman
             textures = new Dictionary<string, Texture>();
             fonts = new Dictionary<string, Font>();
         }
-
+        
         public Texture LoadTexture(string name)
         {
             if (textures.TryGetValue(name, out Texture found))

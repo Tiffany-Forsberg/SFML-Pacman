@@ -1,6 +1,5 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using System.Linq;
 
 namespace Pacman
 {
@@ -14,6 +13,7 @@ namespace Pacman
         private readonly HighScoreManager highScore = new HighScoreManager();
         
         public GUI() : base("pacman") {}
+        
         public override void Create(Scene scene)
         {
             base.Create(scene);
@@ -36,6 +36,7 @@ namespace Pacman
             base.Destroy(scene);
             scene.Events.LoseHealth -= OnLoseHealth;
             scene.Events.GainScore -= OnGainScore;
+            scene.Events.GameOver -= OnGameOver;
         }
 
         private void OnLoseHealth(Scene scene, int amount)
@@ -51,6 +52,7 @@ namespace Pacman
         private void OnGainScore(Scene scene, int amount)
         {
             currentScore += amount;
+            // If all coins are picked up, reload scene, keep GUI
             if (!scene.FindByType<Coin>(out _))
             {
                 DontDestroyOnLoad = true;
@@ -67,19 +69,30 @@ namespace Pacman
         {
             if (isGameOver)
             {
+                scoreText.OutlineColor = Color.Black;
+                scoreText.OutlineThickness = 2;
                 scoreText.DisplayedString = "GAME OVER";
-                scoreText.Position = new Vector2f(207 - scoreText.GetGlobalBounds().Width / 2, 150);
                 scoreText.Scale *= 1.5f;
+                scoreText.Position = new Vector2f(225 - scoreText.GetGlobalBounds().Width / 2, 140);
                 target.Draw(scoreText);
 
                 scoreText.Scale /= 1.5f;
-                scoreText.DisplayedString = $"High Score: {highScore.HandleHighScore(currentScore)}";
-                scoreText.Position = new Vector2f(207 - scoreText.GetGlobalBounds().Width / 2, 200);
+                scoreText.DisplayedString = $"Score: {currentScore}";
+                scoreText.Position = new Vector2f(225 - scoreText.GetGlobalBounds().Width / 2, 175);
                 target.Draw(scoreText);
                 
-                scoreText.DisplayedString = "Press 'R' to restart";
-                scoreText.Position = new Vector2f(207 - scoreText.GetGlobalBounds().Width / 2, 250);
+                scoreText.DisplayedString = $"High Score: {highScore.HandleHighScore(currentScore)}";
+                scoreText.Position = new Vector2f(225 - scoreText.GetGlobalBounds().Width / 2, 200);
                 target.Draw(scoreText);
+                
+                scoreText.Scale /= 1.5f;
+                scoreText.DisplayedString = "Press 'R' to restart";
+                scoreText.Position = new Vector2f(225 - scoreText.GetGlobalBounds().Width / 2, 225);
+                target.Draw(scoreText);
+                
+                // Resets text element
+                scoreText.Scale *= 1.5f;
+                scoreText.OutlineColor = Color.Transparent;
                 
                 return;
             }

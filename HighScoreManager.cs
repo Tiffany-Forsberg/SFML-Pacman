@@ -9,12 +9,15 @@ namespace Pacman
 
         public HighScoreManager()
         {
-            systemPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            // Gets path to where the program is run
+            systemPath = "";
             path = Path.Combine(systemPath, "HighScore.txt");
+            Console.WriteLine(systemPath);
         }        
         
         public int HandleHighScore(int score)
         {
+            // Sets local variable for score comparison
             int currentHighScore = 0;
             
             if (File.Exists(path))

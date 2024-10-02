@@ -1,13 +1,12 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using System.Linq;
 
 namespace Pacman
 {
     public class Ghost : Actor
     {
         private float frozenTimer;
-        private Clock animationTimer = new Clock();
+        private readonly Clock animationTimer = new Clock();
         private AnimationState currentSprite = AnimationState.State1;
         
         public override void Create(Scene scene)
@@ -15,8 +14,11 @@ namespace Pacman
             direction = -1;
             speed = 100.0f;
             moving = true;
+            
             base.Create(scene);
+            
             sprite.TextureRect = new IntRect(36, 0, 18, 18);
+            
             scene.Events.EatCandy += OnEatCandy;
         }
         
@@ -47,11 +49,12 @@ namespace Pacman
         protected override void CollideWith(Scene scene, Entity e)
         {
             if (e is not Pacman) return;
-            if (e is Actor { resetTimer: > 0 }) // Checks if the collided entity is an actor with an active resetTimer
-            {
-                return;
-            }
-            if (resetTimer > 0f) return;
+            
+            // Exits function if the collided entity is an actor with an active resetTimer
+            if (e is Actor { ResetTimer: > 0 }) return;
+            
+            if (ResetTimer > 0f) return;
+            
             if (frozenTimer <= 0)
             {
                 scene.Events.PublishLoseHealth(1);
@@ -71,8 +74,10 @@ namespace Pacman
             {
                 currentSprite = AnimationState.State1;
             }
-            
-            sprite.TextureRect = new IntRect(currentSprite == AnimationState.State1 ? 36 : 54, frozenTimer > 0 ? 18 : 0, 18, 18);
+
+            int spriteLeft = currentSprite == AnimationState.State1 ? 36 : 54;
+            int spriteTop = frozenTimer > 0 ? 18 : 0;
+            sprite.TextureRect = new IntRect(spriteLeft, spriteTop, 18, 18);
             animationTimer.Restart();
         }
         

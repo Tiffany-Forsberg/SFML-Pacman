@@ -1,6 +1,4 @@
 ﻿using SFML.Graphics;
-using System.Collections.Generic;
-using System.Text;
 using SFML.Window;
 
 namespace Pacman
@@ -75,26 +73,25 @@ namespace Pacman
         
         public void UpdateAll(float deltaTime)
         {
+            Loader.HandleSceneLoad(this);
+            Events.HandleEvents(this);
+            
             if (isGameOver)
             {
                 if (Keyboard.IsKeyPressed(Keyboard.Key.R))
                 {
                     Events.PublishGameOver(false);
-                    isGameOver = false;
                     Loader.Reload();
                 }
             }
             else
             {
-                Loader.HandleSceneLoad(this);
-                Events.HandleEvents(this);
-
                 for (int i = entities.Count - 1; i >= 0; i--)
                 {
                     Entity entity = entities[i];
                     entity.Update(this, deltaTime);
                 }
-
+                
                 for (int i = 0; i < entities.Count;)
                 {
                     Entity entity = entities[i];

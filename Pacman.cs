@@ -1,6 +1,5 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using System.Linq;
 using SFML.Window;
 using static SFML.Window.Keyboard.Key;
 
@@ -14,8 +13,11 @@ namespace Pacman
         public override void Create(Scene scene)
         {
             speed = 100.0f;
+            
             base.Create(scene);
+            
             sprite.TextureRect = new IntRect(0, 0, 18, 18);
+            
             scene.Events.LoseHealth += OnLoseHealth;
         }
 
@@ -57,9 +59,12 @@ namespace Pacman
 
             if (IsFree(scene, dir))
             {
-                sprite.TextureRect = new IntRect((currentSprite == AnimationState.State1 ? 0 : 1) * 18, 18 * dir, 18, 18);
+                int spriteLeft = (currentSprite == AnimationState.State1 ? 0 : 1) * 18;
+                int spriteTop = 18 * dir;
+                sprite.TextureRect = new IntRect(spriteLeft, spriteTop, 18, 18);
                 return dir;
             }
+            
             if (!IsFree(scene, direction)) moving = false;
             return direction;
         }
@@ -76,8 +81,9 @@ namespace Pacman
             {
                 currentSprite = AnimationState.State1;
             }
-            
-            sprite.TextureRect = new IntRect((currentSprite == AnimationState.State1 ? 0 : 1) * 18, 18 * direction, 18, 18);
+            int spriteLeft = (currentSprite == AnimationState.State1 ? 0 : 1) * 18;
+            int spriteTop = 18 * direction;
+            sprite.TextureRect = new IntRect(spriteLeft, spriteTop, 18, 18);
             animationTimer.Restart();
         }
         
