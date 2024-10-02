@@ -13,16 +13,21 @@ namespace Pacman
         public event ValueChangedEvent LoseHealth;
         public event ValueChangedEvent EatCandy;
         public event BoolChangedEvent GameOver;
-        private bool isGameOver;
         
         private int scoreGained;
         private int healthLost;
         private int candyEaten;
+        private bool isGameOver;
+        private bool isGameStateChanged;
         
         public void PublishGainScore(int amount) => scoreGained += amount;
         public void PublishLoseHealth(int amount) => healthLost += amount;
         public void PublishEatCandy(int amount) => candyEaten += amount;
-        public void PublishGameOver(bool state) => isGameOver = state;
+        public void PublishGameOver(bool state)
+        {
+            isGameOver = state;
+            isGameStateChanged = true;
+        }
 
         public void HandleEvents(Scene scene)
         {
@@ -43,8 +48,12 @@ namespace Pacman
                 EatCandy?.Invoke(scene, candyEaten);
                 candyEaten = 0;
             }
-            
-            GameOver?.Invoke(scene, isGameOver);
+
+            if (isGameStateChanged)
+            {
+                GameOver?.Invoke(scene, isGameOver);
+                isGameStateChanged = false;
+            }
         }
     }
 }
